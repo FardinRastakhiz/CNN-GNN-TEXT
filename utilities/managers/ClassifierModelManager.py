@@ -36,7 +36,7 @@ class ClassifierModelManager(ModelManager):
         X, y = next(iter(dataloader))
         print(summary(self.torch_model, X.to(self.device)))
 
-    def plot_csv_logger(self, loss_names=['train_loss', 'val_loss'], eval_names=['train_acc', 'val_acc']):
+    def plot_csv_logger(self, loss_names=['train_loss', 'val_loss'], eval_names=['train_acc', 'val_acc'], start_from=0):
         csv_path = path.join(self.log_dir, self.log_name, f'version_{self.logger.version}', 'metrics.csv')
         metrics = pd.read_csv(csv_path)
 
@@ -47,12 +47,12 @@ class ClassifierModelManager(ModelManager):
             agg[agg_col] = i
             aggregation_metrics.append(agg)
 
-        df_metrics = pd.DataFrame(aggregation_metrics)
+        df_metrics = pd.DataFrame(aggregation_metrics).iloc[start_from:]
         df_metrics[loss_names].plot(grid=True, legend=True, xlabel='Epoch', ylabel='loss')
         df_metrics[eval_names].plot(grid=True, legend=True, xlabel='Epoch', ylabel='accuracy')
         plt.show()
 
-    def save_plot_csv_logger(self, loss_names=['train_loss', 'val_loss'], eval_names=['train_acc', 'val_acc'], name_prepend: str=""):
+    def save_plot_csv_logger(self, loss_names=['train_loss', 'val_loss'], eval_names=['train_acc', 'val_acc'], name_prepend: str="", start_from=0):
         csv_path = path.join(self.log_dir, self.log_name, f'version_{self.logger.version}', 'metrics.csv')
         metrics = pd.read_csv(csv_path)
 
@@ -63,7 +63,7 @@ class ClassifierModelManager(ModelManager):
             agg[agg_col] = i
             aggregation_metrics.append(agg)
 
-        df_metrics = pd.DataFrame(aggregation_metrics)
+        df_metrics = pd.DataFrame(aggregation_metrics).iloc[start_from:]
         df_metrics[loss_names].plot(grid=True, legend=True, xlabel='Epoch', ylabel='loss')
         
         loss_png = path.join(self.log_dir, self.log_name, f'version_{self.logger.version}', f'{name_prepend}_loss_metric.png')
@@ -160,7 +160,7 @@ class ClassifierModelManager(ModelManager):
             print(y_true.shape)
             print(y_pred.shape)
             if multi_class:
-                y_true_num = torch.argmax(y_true, dim=1)
+                y_true_num = torch.argmax(y_true, dim=1) if len(y_true.shape)>1 else y_true
                 y_pred_num = torch.argmax(y_pred, dim=1)
             else:
                 y_true_num = y_true
