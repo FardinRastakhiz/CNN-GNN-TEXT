@@ -1,0 +1,14 @@
+
+--index-url https://download.pytorch.org/whl/cu126
+torch==2.6.0+cu126
+torchvision==0.21.0+cu126
+torchaudio==2.6.0+cu126
+jupyter==1.1.1
+transformers==4.52.4
+sentencepiece==0.2.0 
+protobuf==6.31.1
+tiktoken==0.9.0 
+scikit-learn==1.7.0
+umap-learn==0.5.7
+pandas==2.3.0
+matplotlib==3.10.3 
