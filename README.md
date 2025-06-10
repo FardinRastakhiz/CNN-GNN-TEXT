@@ -46,3 +46,45 @@ This project is part of [GCNet](). This project explores the use of deep learnin
 ## License
 
 For detailed licensing information, please see the [LICENSE](LICENSE) file.
+
+## a
+
+$$
+        \mathbf{x}^{\prime}_i = \alpha_{i,i}\mathbf{\Theta}_{s}\mathbf{x}_{i} +
+        \sum_{j \in \mathcal{N}(i)}
+        \alpha_{i,j}\mathbf{\Theta}_{t}\mathbf{x}_{j},
+$$
+
+$$
+\alpha_{i,j} =
+        \frac{
+        \exp\left(\mathbf{a}^{\top}\mathrm{LeakyReLU}\left(
+        \mathbf{\Theta}_{s} \mathbf{x}_i + \mathbf{\Theta}_{t} \mathbf{x}_j
+        \right)\right)}
+        {\sum_{k \in \mathcal{N}(i) \cup \{ i \}}
+        \exp\left(\mathbf{a}^{\top}\mathrm{LeakyReLU}\left(
+        \mathbf{\Theta}_{s} \mathbf{x}_i + \mathbf{\Theta}_{t} \mathbf{x}_k
+        \right)\right)}
+$$
+
+### New Formula:
+
+$$
+        \mathbf{x}^{\prime}_{k,i} = \alpha_{k,i,i}\mathbf{\Theta}_{k,s}\mathbf{x}_{k,i} +
+        \sum_{j \in \mathcal{N}(k,i)}
+        \alpha_{k,i,j}\mathbf{\Theta}_{k,t}\mathbf{x}_{k,j},
+$$
+
+$$
+\alpha_{k,i,j} =
+        \frac{
+        \exp\left(\mathbf{a}_{k}^{\top}\mathrm{LeakyReLU}\left(
+        \mathbf{\Theta}_{k,s} \mathbf{x}_{k,i} + \mathbf{\Theta}_{k,t} \mathbf{x}_{k,j}
+        \right)\right)}
+        {\sum_{l \in \mathcal{N}(k,i) \cup \{ i \}}
+        \exp\left(\mathbf{a}_{k}^{\top}\mathrm{LeakyReLU}\left(
+        \mathbf{\Theta}_{k,s} \mathbf{x}_{k,i} + \mathbf{\Theta}_{k,t} \mathbf{x}_{k,l}
+        \right)\right)}
+$$
+
+Where $k$ is the number of heads
