@@ -106,19 +106,19 @@ class CharacterandTokenLevelCustomDataset(Dataset):
             tokens = ['empty']
                         
         token_lengths = [len(t) for t in tokens]
-        tokens.append('\x01')
+        tokens.append('')
         
-        token_lengths.append(len(tokens[-1])-1)
-        token_lengths = torch.from_numpy(np.array(token_lengths, dtype=np.longlong))+1
-        token_embs = [self.token_dict[t] if t in self.token_dict else torch.zeros((64, ), dtype=torch.float32) for t in tokens]
-        token_sentiments = [self.sentiment_dict[t] if t in self.sentiment_dict else (0.0, 0.0) for t in tokens]
+        token_lengths.append(len(tokens[-1])-1) # O(1)
+        token_lengths = torch.from_numpy(np.array(token_lengths, dtype=np.longlong))+1  # O(n)
+        token_embs = [self.token_dict[t] if t in self.token_dict else torch.zeros((64, ), dtype=torch.float32) for t in tokens] # O(n)
+        token_sentiments = [self.sentiment_dict[t] if t in self.sentiment_dict else (0.0, 0.0) for t in tokens] # O(n)
         token_embs = torch.from_numpy(np.array(token_embs, dtype=np.float32))
         token_sentiments = torch.from_numpy(np.array(token_sentiments, dtype=np.float32))
         doc = ' '.join(tokens)
-        characters = torch.from_numpy(np.array([ord(t) if ord(t)<16383 else 16383 for t in doc], dtype=np.longlong))
+        characters = torch.from_numpy(np.array([ord(t) if ord(t)<16383 else 16383 for t in doc], dtype=np.longlong)) # O(n)
         token_positions = torch.arange(len(token_lengths), dtype=torch.long)
-        token_indices = torch.repeat_interleave(token_positions, token_lengths)
-        token_subsampling_probabilities = sampling_equation(torch.from_numpy(np.array([self.token_frequencies[t] if t in self.token_frequencies else 1 for t in tokens])))
+        token_indices = torch.repeat_interleave(token_positions, token_lengths) # O(n)
+        token_subsampling_probabilities = sampling_equation(torch.from_numpy(np.array([self.token_frequencies[t] if t in self.token_frequencies else 1 for t in tokens]))) # O(n)
         num_tokens = len(token_lengths)
         if num_tokens > self.max_token_count:
             self.max_token_count = num_tokens

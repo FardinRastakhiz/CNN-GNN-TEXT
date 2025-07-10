@@ -14,3 +14,4 @@ class SentimentInjection(nn.Module):
         x1 = F.relu_(self.bn1(self.conv1(token_sentiments.T).T))
         x = F.relu_(self.conv2(torch.cat([x, x1], dim=1).T))
         return x
+    

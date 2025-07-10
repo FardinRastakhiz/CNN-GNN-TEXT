@@ -18,3 +18,5 @@ class GCNN(nn.Module):
         x1 = F.leaky_relu_(self.bn1(x1))
         x = torch.cat([x1, x2], dim=1)
         return x, edge_weights, edge_data
+    
+    
