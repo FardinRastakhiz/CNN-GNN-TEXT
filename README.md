@@ -16,7 +16,6 @@ The last part will be improved in the next update. Project is not in the final s
 
 ## Model Architecture
 
-<img alt="The model architecture" src="ModelArchitecture.jpg">
 
 ## Dependencies
 
