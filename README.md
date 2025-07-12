@@ -7,7 +7,11 @@
 ## Introduction
 
 ## Project Structure
-
+You can run the notebooks in the folder 'codes/notebooks/'
+ - 0_Preparation: Is to prepare token information such as embeddings, frequencies, and sentiment data.
+ - 1_FindBestModel: Is for ablation study and find the best settings and features for the model
+ - 2_CompareWithClassificationModels: Is to compare the model with other classifcation models
+The last part will be improved in the next update.
 
 ## Model Architecture
 
