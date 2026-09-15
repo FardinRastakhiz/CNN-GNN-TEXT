@@ -1,4 +1,4 @@
-# QuickCharNet V2
+# QuickCharNet V2 (GNN-CNN)
 
 **An efficient hybrid CNN–GNN model for text representation, with linear time and memory complexity in text length.**
 
